@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VolScope Dashboard</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; }
+        form { margin: 20px; }
+        .plot { margin: 30px auto; width: 80%; }
+    </style>
+</head>
+<body>
+    <h1>VolScope Dashboard</h1>
+    <form method="get">
+        <input type="text" name="ticker" value="{{ ticker }}" placeholder="Enter ticker (AAPL)">
+        <button type="submit">Fetch Data</button>
+    </form>
+
+    <div class="plot">{{ price_plot|safe }}</div>
+    <div class="plot">{{ iv_plot|safe }}</div>
+</body>
+</html>
