@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Volatility Monitor{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+    <style>
+        /* Minimal styling for tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab { padding: 8px 12px; background: #ddd; border-radius: 5px; cursor: pointer; }
+        .tab.active { background: #aaa; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Volatility Mispricing Monitor</h1>
+        <nav>
+            <a href="{% url 'dashboard' %}">Dashboard</a> |
+            <a href="{% url 'page_b' %}">Page B</a> |
+            <a href="{% url 'page_c' %}">Page C</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

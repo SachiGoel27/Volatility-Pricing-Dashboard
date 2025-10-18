@@ -1,0 +1,42 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}{{ ticker }} Dashboard{% endblock %}
+
+{% block content %}
+<h1>{{ ticker }} Price + IV Dashboard</h1>
+
+<form method="get" id="tickerForm">
+    <input type="text" name="ticker" placeholder="Ticker" value="{{ ticker }}">
+    
+    {% if expirations %}
+    <select name="expiration" onchange="document.getElementById('tickerForm').submit()">
+        {% for exp in expirations %}
+            <option value="{{ exp }}" {% if exp == selected_exp %}selected{% endif %}>{{ exp }}</option>
+        {% endfor %}
+    </select>
+    {% endif %}
+    
+    <button type="submit">Submit</button>
+</form>
+
+<!-- Timeframe Tabs -->
+<div class="tabs">
+    {% for label, value in timeframes.items %}
+        <a href="?ticker={{ ticker }}&period={{ value }}{% if selected_exp %}&expiration={{ selected_exp }}{% endif %}"
+           class="tab {% if period == value %}active{% endif %}">
+            {{ label }}
+        </a>
+    {% endfor %}
+</div>
+
+<div>
+    <h2>Price History</h2>
+    {{ price_div|safe }}
+</div>
+
+<div>
+    <h2>Implied Volatility Curve</h2>
+    {{ iv_div|safe }}
+</div>
+{% endblock %}
