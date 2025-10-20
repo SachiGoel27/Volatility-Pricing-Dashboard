@@ -1,5 +1,46 @@
-{% extends "dashboard/base.html" %}
+{% extends 'dashboard/base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/style.css' %}">
+{% block title %}{{ ticker }} Volatility Analysis{% endblock %}
+
 {% block content %}
-<h2>Page B</h2>
-<p>This page will later show the implied volatility model details.</p>
+<h2>{{ ticker }} Volatility Analysis</h2>
+
+<form method="get" class="mb-4">
+  <label for="ticker">Ticker:</label>
+  <input type="text" name="ticker" id="ticker" value="{{ ticker|default:'AAPL' }}" required>
+
+  <label for="period">Period:</label>
+  <select name="period" id="period">
+    <option value="6mo" {% if period == "6mo" %}selected{% endif %}>6 Months</option>
+    <option value="1y" {% if period == "1y" %}selected{% endif %}>1 Year</option>
+    <option value="5y" {% if period == "5y" %}selected{% endif %}>5 Years</option>
+    <option value="max" {% if period == "max" %}selected{% endif %}>All Time</option>
+  </select>
+
+  <button type="submit">Run</button>
+</form>
+
+{% if error %}
+  <div style="color: red;">Error: {{ error }}</div>
+{% else %}
+
+<p><strong>Forecasted Volatility:</strong> {{ forecast_vol|floatformat:4 }}</p>
+
+<div>
+  <h3>Realized Volatility</h3>
+  {{ rv_div|safe }}
+</div>
+
+<div>
+  <h3>MS-GARCH Volatility</h3>
+  {{ ms_vol_div|safe }}
+</div>
+
+<div>
+  <h3>Overlay: Implied vs MS-GARCH Volatility</h3>
+  {{ overlay_div|safe }}
+</div>
+
+{% endif %}
 {% endblock %}
